@@ -1,0 +1,25 @@
+sources:
+  - name: debezium # this is the source_name
+    database: augmented-world-456406-m8 # this is the project_name
+    description: "This source contains the raw data from the Debezium CDC connector."
+    # The schema_name is the schema where the source tables are located.
+    # In this case, it is the same as the database_name.
+    # If you are using a different schema, you can specify it here.
+    schema: debezium # this is the schema_name
+
+    config: 
+      # changed to config in v1.9
+      freshness: # default freshness
+        warn_after: {count: 20, period: minute}
+        error_after: {count: 30, period: minute}
+        filter: datediff('day', payment_date, current_timestamp) < 2
+
+    loaded_at_field: payment_date # this is the field that will be used to determine freshness
+    tables:
+      - name: payment
+        config:
+          freshness: # make this a little more strict
+            warn_after: {count: 6, period: hour}
+            error_after: {count: 12, period: hour}
+            # Apply a where clause in the freshness query
+            filter: datediff('day', _etl_loaded_at, current_timestamp) < 2

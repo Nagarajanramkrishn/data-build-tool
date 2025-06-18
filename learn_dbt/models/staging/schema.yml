@@ -10,6 +10,7 @@ sources:
     schema: debezium # this is the schema_name
 
     tables:
+
       - name: customers # this is the table_name
         description: "This table contains customer data."
       - name: orders
@@ -21,14 +22,18 @@ sources:
 
 models:
   - name: stg_debezium_customers  # this must match the model name (not file name)
-    description: "This model contains email addresses extracted from the customers table."
+    description: '{{ doc("table_events") }}'
     columns:
       - name: first_name
-        description: "The first name of the customer."
+        description: '{{ doc("customer_first_name") }}'
         tests:
           - first_name_not_empty
       - name: email
-        description: "The email address of the customer."
+        description: '{{ doc("custmoer_email") }}'
         tests:
           - not_null
           - unique
+      - name: country_code
+        description: '{{ doc("customer_country_code") }}'
+        tests:
+          - is_us_country_code

@@ -8,6 +8,17 @@ version: '1.0.0'
 # This setting configures which "profile" dbt uses for this project.
 profile: 'learn_dbt'
 
+
+vars:
+  country_code: US # This variable can be used in your models, e.g., to filter data
+
+
+on-run-start: # This macro runs before dbt starts building models
+  - "{{ insert_audits('run_start') }}"
+on-run-end: # This macro runs after dbt finishes building models
+  - "{{ insert_audits('run_end') }}"
+
+
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You probably won't need to change these!
@@ -17,6 +28,7 @@ test-paths: ["tests"]
 seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
+docs-paths: ["docs"]
 
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
@@ -31,6 +43,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   learn_dbt:
+    +pre-hook: "{{ insert_audits('model_start') }}"
+    +post-hook: "{{ insert_audits('model_end') }}"
     # Config indicated by + and applies to all files under models/example/
     staging:
       +materialized: view
