@@ -22,4 +22,4 @@ sources:
             warn_after: {count: 6, period: hour}
             error_after: {count: 12, period: hour}
             # Apply a where clause in the freshness query
-            filter: datediff('day', _etl_loaded_at, current_timestamp) < 2
+            filter: datediff('day', payment_date, current_timestamp) < 2

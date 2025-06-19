@@ -19,6 +19,8 @@ sources:
         description: "This table contains product data."
       - name: order_items
         description: "This table contains order item data."
+      - name: artist_data
+        description: "This table contains artist data."
 
 models:
   - name: stg_debezium_customers  # this must match the model name (not file name)
