@@ -1,0 +1,11 @@
+sources:
+  - name: shipping_platform # this is the source_name
+    database: augmented-world-456406-m8 # this is the project_name
+    description: "This source contains the raw data from the Debezium CDC connector."
+    # The schema_name is the schema where the source tables are located.
+    # In this case, it is the same as the database_name.
+    # If you are using a different schema, you can specify it here.
+    schema: debezium # this is the schema_name
+    tables:
+
+      - name: order_shipping
