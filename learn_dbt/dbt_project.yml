@@ -14,9 +14,9 @@ vars:
 
 
 on-run-start: # This macro runs before dbt starts building models
-  - "{{ insert_audits('run_start') }}"
+  - "{{ audit_log('run_start') }}"
 on-run-end: # This macro runs after dbt finishes building models
-  - "{{ insert_audits('run_end') }}"
+  - "{{ audit_log('run_end') }}"
 
 
 # These configurations specify where dbt should look for different types of files.
@@ -43,8 +43,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   learn_dbt:
-    +pre-hook: "{{ insert_audits('model_start') }}"
-    +post-hook: "{{ insert_audits('model_end') }}"
+    +pre-hook: "{{ audit_log('model_start') }}"
+    +post-hook: "{{ audit_log('model_end') }}"
     # Config indicated by + and applies to all files under models/example/
     staging:
       +materialized: view
